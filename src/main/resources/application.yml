@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: payment-rules
+  data:
+    mongodb:
+      database: payment-api-gateway
+      host: localhost
+      port: 37017
+
+server:
+  port: 9090
