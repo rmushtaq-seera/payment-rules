@@ -49,7 +49,7 @@ public class PaymentRuleController {
                 .map(addedRule -> ResponseEntity.created(URI.create("/payment-rules/" +addedRule.getId())).body(addedRule))
                 .switchIfEmpty(Mono.just(ResponseEntity.internalServerError().build()));
     }
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public Mono<ResponseEntity<PaymentRuleDto>> updatePaymentRule(@RequestBody Mono<PaymentRuleDto> paymentRuleDto, @PathVariable String id){
         return paymentRuleService.updatePaymentRule(paymentRuleDto, id)
                 .map(paymentRule -> ResponseEntity.ok(paymentRule))

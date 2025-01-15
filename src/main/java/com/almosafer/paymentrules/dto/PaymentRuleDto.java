@@ -15,8 +15,10 @@ import java.util.List;
 public class PaymentRuleDto {
     private String id;
     private String title;
+    private String description;
     private List<String> paymentMethods;
     private String currency;
+    private String match;
     private List<Integer> appIds;
     private List<Object> conditions;
     private Object processing;

@@ -22,9 +22,11 @@ public class PaymentRule {
     @Id
     private String id;
     private String title;
+    private String description;
     private List<String> paymentMethods;
     private String currency;
     private List<Integer> appIds;
+    private String match;
     private List<Object> conditions;
     private Object processing;
     private Integer priority;

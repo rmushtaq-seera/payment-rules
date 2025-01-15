@@ -24,19 +24,17 @@ public class PaymentRuleService {
                 .map(PaymentRuleMapper::toPaymentRuleDto);
     }
 
-    public Mono<PaymentRuleDto> updatePaymentRule(Mono<PaymentRuleDto> paymentRuleDtoMono, String id){
-        return paymentRuleRepository.findById(id) // getting record from DB which is Mono<PaymentRule>
-                        .flatMap(dbRule -> paymentRuleDtoMono.map(PaymentRuleMapper::toPaymentRule) // get the request object and convert into entity
-                        .doOnNext(updatedRule -> {
-                            updatedRule.setId(id);
-                            updatedRule.setCreatedAt(dbRule.getCreatedAt());
-                        })
-                        .flatMap(paymentRuleRepository::save)
-                        .map(PaymentRuleMapper::toPaymentRuleDto));
+    public Mono<PaymentRuleDto> updatePaymentRule(Mono<PaymentRuleDto> paymentRuleDtoMono, String ruleId){
+        return paymentRuleDtoMono
+                .flatMap(paymentRuleDto -> paymentRuleRepository.findById(ruleId)
+                .map(dbRule -> paymentRuleMapper.toUpdateModel(dbRule, paymentRuleDto)) // get the request object and convert into entity
+                .flatMap(paymentRuleRepository::save)
+                .map(PaymentRuleMapper::toPaymentRuleDto));
 
     }
-    public Mono<Void> deletePaymentRule(String id) {
-        return paymentRuleRepository.findById(id)
+
+    public Mono<Void> deletePaymentRule(String ruleId) {
+        return paymentRuleRepository.findById(ruleId)
                 .flatMap(rule -> paymentRuleRepository.delete(rule).then())
                 .switchIfEmpty(Mono.empty());
     }
